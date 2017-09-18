@@ -1,0 +1,30 @@
+{
+  "name": "dogecoin-tipping-bot",
+  "version": "0.0.1",
+  "description": "Dogecoin tipping bot",
+  "main": "app/main.js",
+  "private": true,
+  "scripts": {
+    "start": "node app/main.js",
+    "dev": "nodemon app/main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "dogecoin",
+    "discord",
+    "tipping"
+  ],
+  "author": "Me",
+  "license": "ISC",
+  "dependencies": {
+    "bip39": "^2.4.0",
+    "bitcoinjs-lib": "2.3.0",
+    "blockcypher": "git+https://git@github.com/rllola/node-client.git",
+    "discord.js": "^11.2.1",
+    "dotenv": "^4.0.0",
+    "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.12.1"
+  }
+}
