@@ -2,11 +2,11 @@
   "name": "dogecoin-tipping-bot",
   "version": "0.0.1",
   "description": "Dogecoin tipping bot",
-  "main": "app/main.js",
+  "main": "src/main.js",
   "private": true,
   "scripts": {
-    "start": "node app/main.js",
-    "dev": "nodemon app/main.js",
+    "start": "node src/main.js",
+    "dev": "nodemon src/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
