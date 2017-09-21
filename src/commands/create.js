@@ -33,6 +33,8 @@ async function create (message, bcapi, hd) {
       return
     }
 
+    var tag = message.author.tag.replace('#', '')
+
     bcapi.deriveAddrHDWallet(tag, function (error, body) {
       if (error) {
         message.channel.send(OOPS_TEXT)
