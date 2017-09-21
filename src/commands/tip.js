@@ -1,7 +1,7 @@
 const {DOGE_SATOSHI, DOGE_PATH_PREFIX} = require('../constants')
 
 const TIP_TEXT = 'Wow. Much coins.'
-const NO_WALLET_TEXT = 'You dont have a wallet yet... Do "/wow create"'
+const NO_ADDRESS_TEXT = 'We need to generate a new address for this user. Please try again.'
 const OOPS_TEXT = 'Oops ! Something went wrong. Contact Lola.'
 const PROPER_AMOUNT_TEXT = 'You need provide a proper amount to be send.'
 const NO_COMMA_TEXT = 'Please avoid "," in your amount and use "."'
@@ -112,7 +112,14 @@ function tip (message, bcapi, hd, amount, to) {
 
       return
     } else {
-      message.channel.send(OOPS_TEXT)
+      bcapi.deriveAddrHDWallet(tagTo, function (error, body) {
+        if (error) {
+          message.channel.send(OOPS_TEXT)
+          return
+        }
+        message.channel.send(NO_ADDRESS_TEXT)
+        return
+      })
     }
   })
 }
