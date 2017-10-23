@@ -1,4 +1,5 @@
-const {DOGE_SATOSHI} = require('../constants')
+const { DOGE_SATOSHI, RATE_URL } = require('../constants')
+const request = require('request')
 
 const NO_WALLET_TEXT = 'No balance. Wow. No DogeCoin wallet.'
 const BALANCE_TEXT = 'Wow. Balance : '
@@ -22,7 +23,19 @@ async function balance (message, bcapi) {
       return
     }
 
-    message.channel.send(BALANCE_TEXT + body.final_balance / DOGE_SATOSHI + ' DOGE')
+    var finalBalance = body.final_balance
+
+    request.get(RATE_URL, function (error, response, body) {
+      if (error) {
+        message.reply(OOPS_TEXT)
+        return
+      }
+
+      var result = JSON.parse(body)
+      var priceEur = result[0].price_eur
+
+      message.channel.send(BALANCE_TEXT + (finalBalance / DOGE_SATOSHI).toFixed(2) + ' DOGE ( ' + (finalBalance / DOGE_SATOSHI * priceEur).toFixed(2) + ' EUR )')
+    })
   })
 }
 
