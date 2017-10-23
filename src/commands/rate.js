@@ -1,6 +1,5 @@
 const request = require('request')
-
-const RATE_URL = 'https://api.coinmarketcap.com/v1/ticker/dogecoin/?convert=EUR'
+const { RATE_URL } = require('../constants')
 
 function rate (message) {
   request.get(RATE_URL, function (error, response, body) {
