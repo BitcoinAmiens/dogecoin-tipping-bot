@@ -1,6 +1,5 @@
 const Discord = require('discord.js')
 const Dotenv = require('dotenv')
-const Blockcy = require('blockcypher')
 const {HDNode, networks} = require('bitcoinjs-lib')
 
 const Commands = require('./commands')
@@ -10,8 +9,6 @@ const client = new Discord.Client()
 
 // Load the .env file
 Dotenv.config()
-// Init BlockCypher api
-const bcapi = new Blockcy('doge', 'main', process.env.BLOCKCYPHER_TOKEN)
 
 // Init HDnode
 const hd = HDNode.fromSeedHex(process.env.MASTER_SEED_HEX, networks.dogecoin)
@@ -46,7 +43,7 @@ client.on('message', message => {
         Commands.create(message, bcapi, hd)
         break
       case 'address':
-        Commands.address(message, bcapi)
+        Commands.address(message)
         break
       case 'adopt':
         message.reply('Wow wow')
