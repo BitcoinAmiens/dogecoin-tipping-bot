@@ -66,6 +66,10 @@ function getUnusedAddress (account) {
   })
 }
 
+/**
+ * Derive a new address on the wallet
+ * @return address
+ **/
 function deriveNewAddress (account) {
   return new Promise((resolve, reject) => {
     bcapi.deriveAddrHDWallet(account, function (error, body) {
@@ -80,7 +84,34 @@ function deriveNewAddress (account) {
   })
 }
 
+/**
+ * Get the balance in dogecoin of an account
+ **/
+function getBalance (account) {
+  return new Promise((resolve, reject) => {
+    bcapi.getAddrBal(account, {}, function (error, body) {
+      if (error) {
+        reject(OOPS_TEXT)
+        console.error(error)
+        return
+      }
+
+      if (body.error) {
+        if (body.error === 'Wallet ' + account + ' not found') {
+          reject(NO_WALLET_TEXT)
+        } else {
+          reject(OOPS_TEXT)
+        }
+        return
+      }
+
+      resolve(body.final_balance)
+    })
+  })
+}
+
 module.exports = {
   rateDogeEur,
-  getUnusedAddress
+  getUnusedAddress,
+  getBalance
 }
