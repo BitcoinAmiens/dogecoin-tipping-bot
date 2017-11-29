@@ -1,17 +1,10 @@
-const request = require('request')
-const { RATE_URL } = require('../constants')
+const { rateDogeEur } = require('../requests')
 
 function rate (message) {
-  request.get(RATE_URL, function (error, response, body) {
-    if (error) {
-      console.error(error)
-      return
-    }
-
-    var result = JSON.parse(body)
-
-    // Can be improved !
-    message.channel.send('1 DGE = ' + result[0].price_eur + ' EUR')
+  rateDogeEur().then((rate) => {
+    message.channel.send('1 DGE = ' + rate + ' EUR')
+  }).catch((error) => {
+    message.channel.send(error)
   })
 }
 
