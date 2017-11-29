@@ -1,10 +1,11 @@
 const request = require('request')
 const Dotenv = require('dotenv')
 const Blockcy = require('blockcypher')
-const { RATE_URL } = require('./constants')
+const { RATE_URL, DOGE_PATH_PREFIX } = require('./constants')
 
 const OOPS_TEXT = 'Oops ! Something went wrong. Contact Lola.'
 const NO_WALLET_TEXT = 'You need to create a wallet !'
+const HAS_WALLET_TEXT = 'You already have a wallet !'
 
 // Load the .env file
 Dotenv.config()
@@ -39,7 +40,6 @@ function getUnusedAddress (account) {
     bcapi.getAddrsHDWallet(account, {used: false}, function (error, body) {
       if (error) {
         reject(OOPS_TEXT)
-        console.error(error)
         return
       }
 
@@ -48,7 +48,6 @@ function getUnusedAddress (account) {
           reject(NO_WALLET_TEXT)
         } else {
           reject(OOPS_TEXT)
-          console.error(body.error)
         }
         return
       }
@@ -75,7 +74,6 @@ function deriveNewAddress (account) {
     bcapi.deriveAddrHDWallet(account, function (error, body) {
       if (error) {
         reject(OOPS_TEXT)
-        console.error(error)
         return
       }
 
@@ -86,6 +84,7 @@ function deriveNewAddress (account) {
 
 /**
  * Get the balance in dogecoin of an account
+ * @return balance
  **/
 function getBalance (account) {
   return new Promise((resolve, reject) => {
@@ -110,8 +109,90 @@ function getBalance (account) {
   })
 }
 
+/**
+ * Create a new wallet
+ **/
+function createWallet (data) {
+  return new Promise((resolve, reject) => {
+    bcapi.createHDWallet(data, function (error, body) {
+      if (error) {
+        reject(OOPS_TEXT)
+        return
+      }
+
+      if (body.error) {
+        if (body.error === 'Error: wallet exists') {
+          reject(HAS_WALLET_TEXT)
+        } else {
+          reject(OOPS_TEXT)
+        }
+        return
+      }
+
+      resolve()
+    })
+  })
+}
+
+/**
+ * Create and send a trancation transaction
+ * @return address
+ **/
+function createTransaction (tx, hd, account) {
+  return new Promise((resolve, reject) => {
+    // Prepare tx !
+    bcapi.newTX(tx, function (error, body) {
+      if (error) {
+        reject(OOPS_TEXT)
+        return
+      }
+
+      if (body.errors || body.error) {
+        // Need to do it for the 3 differents error code...
+        reject(OOPS_TEXT)
+        return
+      }
+
+      // Get path
+      var path = DOGE_PATH_PREFIX + account + "'"
+
+      const hdAuthor = hd.derivePath(path)
+
+      const signatures = []
+      const pubkeys = []
+
+      for (var i in body.tx.inputs) {
+        var hdInput = hdAuthor.derivePath(body.tx.inputs[i].hd_path.substr(2))
+
+        var hashBuffer = new Buffer(body.tosign[i], 'hex')
+        signatures.push(hdInput.sign(hashBuffer).toDER().toString('hex'))
+        pubkeys.push(hdInput.getPublicKeyBuffer().toString('hex'))
+      }
+
+      var txskel = Object.assign(body, {signatures: signatures, pubkeys: pubkeys})
+
+      // Send tx
+      bcapi.sendTX(txskel, function (error, body) {
+        if (error) {
+          reject(OOPS_TEXT)
+          return
+        }
+
+        if (body.errors) {
+          reject(OOPS_TEXT)
+          return
+        }
+
+        resolve()
+      })
+    })
+  })
+}
+
 module.exports = {
   rateDogeEur,
   getUnusedAddress,
-  getBalance
+  getBalance,
+  createWallet,
+  createTransaction
 }

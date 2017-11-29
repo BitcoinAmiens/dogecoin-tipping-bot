@@ -1,14 +1,13 @@
-const {DOGE_SATOSHI, DOGE_PATH_PREFIX} = require('../constants')
+const {DOGE_SATOSHI} = require('../constants')
+const { createTransaction, getUnusedAddress } = require('../requests')
 
 const TIP_TEXT = 'Wow. Much coins.'
-const NO_ADDRESS_TEXT = 'We need to generate a new address for this user. Please try again.'
-const OOPS_TEXT = 'Oops ! Something went wrong. Contact Lola.'
 const PROPER_AMOUNT_TEXT = 'You need provide a proper amount to be send.'
 const NO_COMMA_TEXT = 'Please avoid "," in your amount and use "."'
 const NEED_USER_TEXT = 'Need a user as a third argument'
-const USER_NO_WALLET_TEXT = 'This user dont have a wallet yet.'
+// const USER_NO_WALLET_TEXT = 'This user dont have a wallet yet.'
 
-function tip (message, bcapi, hd, amount, to) {
+function tip (message, hd, amount, to) {
   if (!to) {
     message.reply(NEED_USER_TEXT)
     return
@@ -29,23 +28,10 @@ function tip (message, bcapi, hd, amount, to) {
 
   var tagTo = to.username + to.discriminator
 
-  bcapi.getAddrsHDWallet(tagTo, {used: false}, function (error, body) {
-    if (error) {
-      message.channel.send(OOPS_TEXT)
-      return
-    }
-
-    if (body.error) {
-      if (body.error === 'Error: wallet not found') {
-        message.channel.send(USER_NO_WALLET_TEXT)
-      } else {
-        message.channel.send(OOPS_TEXT)
-      }
-      return
-    }
-
-    if (body.chains[0].chain_addresses.length > 0) {
+  getUnusedAddress(tagTo)
+    .then((address) => {
       var tag = message.author.tag.replace('#', '')
+      var account = message.author.id % Math.pow(2, 31)
 
       var tx = {
         inputs: [
@@ -56,72 +42,24 @@ function tip (message, bcapi, hd, amount, to) {
         ],
         outputs: [
           {
-            addresses: [body.chains[0].chain_addresses[0].address],
+            addresses: [address],
             value: amount * DOGE_SATOSHI
           }
         ]
       }
 
       // Prepare tx !
-      bcapi.newTX(tx, function (error, body) {
-        if (error) {
-          message.channel.send(OOPS_TEXT)
-          return
-        }
-
-        if (body.errors || body.error) {
-          // Need to do it for the 3 differents error code...
-          message.channel.send(OOPS_TEXT)
-          return
-        }
-
-        var account = message.author.id % Math.pow(2, 31)
-
-        // Get path
-        var path = DOGE_PATH_PREFIX + account + "'"
-        const hdAuthor = hd.derivePath(path)
-
-        const signatures = []
-        const pubkeys = []
-
-        for (var i in body.tx.inputs) {
-          var hdInput = hdAuthor.derivePath(body.tx.inputs[i].hd_path.substr(2))
-
-          var hashBuffer = new Buffer(body.tosign[i], 'hex')
-          signatures.push(hdInput.sign(hashBuffer).toDER().toString('hex'))
-          pubkeys.push(hdInput.getPublicKeyBuffer().toString('hex'))
-        }
-
-        var txskel = Object.assign(body, {signatures: signatures, pubkeys: pubkeys})
-
-        // Send tx
-        bcapi.sendTX(txskel, function (error, body) {
-          if (error) {
-            message.channel.send(OOPS_TEXT)
-            return
-          }
-
-          if (body.errors) {
-            message.channel.send(OOPS_TEXT)
-            return
-          }
-
-          message.reply(TIP_TEXT)
+      createTransaction(tx, hd, account)
+        .then((response) => {
+          message.channel.send(TIP_TEXT)
         })
-      })
-
-      return
-    } else {
-      bcapi.deriveAddrHDWallet(tagTo, function (error, body) {
-        if (error) {
-          message.channel.send(OOPS_TEXT)
-          return
-        }
-        message.channel.send(NO_ADDRESS_TEXT)
-        return
-      })
-    }
-  })
+        .catch((error) => {
+          message.channel.send(error)
+        })
+    })
+    .catch((error) => {
+      message.channel.send(error)
+    })
 }
 
 module.exports = tip

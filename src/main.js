@@ -31,7 +31,7 @@ client.on('message', message => {
         Commands.help(message)
         break
       case 'tip':
-        Commands.tip(message, bcapi, hd, args[2], message.mentions.users.first())
+        Commands.tip(message, hd, args[2], message.mentions.users.first())
         break
       case 'balance':
         Commands.balance(message)

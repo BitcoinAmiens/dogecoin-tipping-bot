@@ -1,8 +1,7 @@
 const DOGE_PATH_PREFIX = require('../constants').DOGE_PATH_PREFIX
+const { createWallet, deriveNewAddress } = require('../requests')
 
 const SUCCESS_TEXT = 'Your wallet has been created. You can now fill it with some Dogecoin /wow address'
-const HAS_WALLET_TEXT = 'You already have a wallet !'
-const OOPS_TEXT = 'Oops ! Something went wrong. Contact Lola.'
 
 async function create (message, bcapi, hd) {
   var account = message.author.id % Math.pow(2, 31)
@@ -18,32 +17,19 @@ async function create (message, bcapi, hd) {
     subchain_indexes: [0, 1]
   }
 
-  bcapi.createHDWallet(data, function (error, body) {
-    if (error) {
-      message.channel.send(OOPS_TEXT)
-      return
-    }
+  createWallet(data)
+    .then(() => {
+      var tag = message.author.tag.replace('#', '')
 
-    if (body.error) {
-      if (body.error === 'Error: wallet exists') {
-        message.channel.send(HAS_WALLET_TEXT)
-      } else {
-        message.channel.send(OOPS_TEXT)
-      }
-      return
-    }
-
-    var tag = message.author.tag.replace('#', '')
-
-    bcapi.deriveAddrHDWallet(tag, function (error, body) {
-      if (error) {
-        message.channel.send(OOPS_TEXT)
-        return
-      }
-      message.channel.send(SUCCESS_TEXT)
+      deriveNewAddress(tag)
+        .then(() => {
+          message.channel.send(SUCCESS_TEXT)
+        }).catch((error) => {
+          message.channel.send(error)
+        })
+    }).catch((error) => {
+      message.channel.send(error)
     })
-
-  })
 }
 
 module.exports = create
