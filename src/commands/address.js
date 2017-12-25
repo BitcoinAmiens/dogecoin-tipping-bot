@@ -1,14 +1,20 @@
-const { getUnusedAddress } = require('../requests')
+const { OOPS_TEXT } = require('../messages')
 
 const ADDRESS_TEXT = 'You can send dogecoin to this address : '
 
-function address (message) {
-  var tag = message.author.tag.replace('#', '')
+function address (message, dogecoinNode) {
+  var account = message.author.tag.replace('#', '')
 
-  getUnusedAddress(tag).then((address) => {
+  // Will create a new account if doesn't exist... ? Should we allow this ?
+  // Yes
+  dogecoinNode.getAccountAddress(account, function (err, address) {
+    if (err) {
+      console.log(err)
+      message.channel.send(OOPS_TEXT)
+      return
+    }
+
     message.channel.send(ADDRESS_TEXT + address)
-  }).catch((error) => {
-    message.channel.send(error)
   })
 }
 

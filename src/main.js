@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
 const Dotenv = require('dotenv')
-const {HDNode, networks} = require('bitcoinjs-lib')
+const dogecoin = require('node-dogecoin')()
 
 const Commands = require('./commands')
 
@@ -10,8 +10,11 @@ const client = new Discord.Client()
 // Load the .env file
 Dotenv.config()
 
-// Init HDnode
-const hd = HDNode.fromSeedHex(process.env.MASTER_SEED_HEX, networks.dogecoin)
+// Set our dogecoin node IP
+dogecoin.set('host', '163.172.156.174')
+
+// Register auth value
+dogecoin.auth(process.env.RPC_USER, process.env.RPC_PASSWORD)
 
 client.on('ready', () => {
   console.log('I am ready!')
@@ -31,19 +34,16 @@ client.on('message', message => {
         Commands.help(message)
         break
       case 'tip':
-        Commands.tip(message, hd, args[2], message.mentions.users.first())
+        Commands.tip(message, dogecoin, args[2])
         break
       case 'balance':
-        Commands.balance(message)
+        Commands.balance(message, dogecoin)
         break
       case 'rate':
         Commands.rate(message)
         break
-      case 'create':
-        Commands.create(message, bcapi, hd)
-        break
       case 'address':
-        Commands.address(message)
+        Commands.address(message, dogecoin)
         break
       case 'adopt':
         message.reply('Wow wow')

@@ -1,23 +1,24 @@
-const { DOGE_SATOSHI } = require('../constants')
-const { getBalance, rateDogeEur } = require('../requests')
+const { OOPS_TEXT } = require('../messages')
+const { rateDogeEur } = require('../requests')
 
 const BALANCE_TEXT = 'Wow. Balance : '
 
-async function balance (message, bcapi) {
-  var tag = message.author.tag.replace('#', '')
+function balance (message, dogecoinNode) {
+  var account = message.author.tag.replace('#', '')
 
-  getBalance(tag)
-    .then((balance) => {
-      // It is a bit messy here but yeah whatever
-      rateDogeEur().then((rate) => {
-        message.channel.send(BALANCE_TEXT + (balance / DOGE_SATOSHI).toFixed(2) + ' DOGE ( ' + (balance / DOGE_SATOSHI * rate).toFixed(2) + ' EUR )')
-      }).catch((error) => {
-        message.channel.send(error)
-      })
-    })
-    .catch((error) => {
+  dogecoinNode.getBalance(account, function (err, balance) {
+    if (err) {
+      console.log(err)
+      message.channel.send(OOPS_TEXT)
+      return
+    }
+
+    rateDogeEur().then((rate) => {
+      message.channel.send(BALANCE_TEXT + (balance).toFixed(2) + ' DOGE ( ' + (balance * rate).toFixed(2) + ' EUR )')
+    }).catch((error) => {
       message.channel.send(error)
     })
+  })
 }
 
 module.exports = balance

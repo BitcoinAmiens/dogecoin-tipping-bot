@@ -7,6 +7,7 @@
   "scripts": {
     "start": "node src/main.js",
     "dev": "nodemon src/main.js",
+    "migrate": "node migrate/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -17,11 +18,10 @@
   "author": "Me",
   "license": "ISC",
   "dependencies": {
-    "bip39": "^2.4.0",
     "bitcoinjs-lib": "2.3.0",
-    "blockcypher": "git+https://git@github.com/rllola/node-client.git",
     "discord.js": "^11.2.1",
     "dotenv": "^4.0.0",
+    "node-dogecoin": "^0.3.9",
     "request": "^2.81.0"
   },
   "devDependencies": {
