@@ -4,7 +4,6 @@ Command list : \n \
   - **tip** : Tip someone some dogecoin \n \
   - **balance** : Get your balance \n \
   - **rate** : Get current value \n \
-  - **create** : Create a new wallet (you can only have 1 wallet) \n \
   - **address** : Show an used wallet so you can refill your wallet \n \
 ```'
 
