@@ -1,20 +1,18 @@
 const Discord = require('discord.js')
-const Dotenv = require('dotenv')
 const dogecoin = require('node-dogecoin')()
 
+const settings = require('./settings')
 const Commands = require('./commands')
 
 // Init the Discord client
 const client = new Discord.Client()
 
-// Load the .env file
-Dotenv.config()
-
-// Set our dogecoin node IP
-dogecoin.set('host', '163.172.156.174')
+// Set our dogecoin node IP and port
+dogecoin.set('host', settings.RPC_HOST)
+dogecoin.set('port', settings.RPC_PORT)
 
 // Register auth value
-dogecoin.auth(process.env.RPC_USER, process.env.RPC_PASSWORD)
+dogecoin.auth(settings.RPC_USER, settings.RPC_PASSWORD)
 
 client.on('ready', () => {
   console.log('I am ready!')
@@ -59,4 +57,4 @@ client.on('message', message => {
   }
 })
 
-client.login(process.env.DISCORD_TOKEN)
+client.login(settings.DISCORD_TOKEN)

@@ -1,0 +1,13 @@
+{
+  "discord": {
+    "id": "<your-discord-id-here>",
+    "secret": "<your-discord-secret-here>",
+    "token": "<your-discord-token-here>"
+  },
+  "rpc": {
+    "host": "<dogecoin-ip-address>",
+    "port": 44555,
+    "user": "<dogecoin-rpc-user-here>",
+    "password": "<dogecoin-rpc-password-here>"
+  }
+}
