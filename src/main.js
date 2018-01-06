@@ -46,6 +46,9 @@ client.on('message', message => {
       case 'adopt':
         message.reply('Wow wow')
         break
+      case 'goodboy':
+        Commands.goodboy(message)
+        break
       default :
         message.reply('pong')
     }
