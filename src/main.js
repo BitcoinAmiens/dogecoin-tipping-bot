@@ -47,7 +47,7 @@ client.on('message', message => {
         message.reply('Wow wow')
         break
       case 'goodboy':
-        Commands.goodboy(message)
+        Commands.goodboy(message, apiKey)
         break
       default :
         message.reply('pong')
