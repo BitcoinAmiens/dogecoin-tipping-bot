@@ -9,7 +9,7 @@ function goodboy (message, apiKey) {
       return
     }
 
-    message.channel.send('Who\'s the good boy ??? (Powered By GIPHY)\n' + body.url)
+    message.channel.send('Who\'s the good boy ??? (Powered By GIPHY)\n' + body.data.url)
   })
 }
 
