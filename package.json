@@ -8,7 +8,7 @@
     "start": "node src/main.js",
     "dev": "nodemon src/main.js",
     "migrate": "node migrate/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"I will write some... One day...\" && exit 0"
   },
   "keywords": [
     "dogecoin",
