@@ -5,6 +5,7 @@ Command list : \n \
   - **balance** : Get your balance \n \
   - **rate** : Get current value \n \
   - **address** : Show an used wallet so you can refill your wallet \n \
+  - **goodboy** : Wow, much doggo, such reward, wow \n \
 ```'
 
 function help (message) {
