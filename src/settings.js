@@ -9,5 +9,6 @@ settings.RPC_HOST = process.env.RPC_HOST || config.rpc.host
 settings.RPC_PORT = process.env.RPC_PORT || config.rpc.port
 settings.RPC_USER = process.env.RPC_USER || config.rpc.user
 settings.RPC_PASSWORD = process.env.RPC_PASSWORD || config.rpc.password
+settings.GIPHY_KEY = process.env.GIPHY_KEY || config.giphy.key
 
 module.exports = settings
