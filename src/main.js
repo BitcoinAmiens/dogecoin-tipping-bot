@@ -49,8 +49,10 @@ client.on('message', message => {
         message.reply('Wow wow')
         break
       case 'goodboy':
-        Commands.goodboy(message, giphyApiKey)
-        break
+        if (giphyApiKey !== null && giphyApiKey !== '') {
+          Commands.goodboy(message, giphyApiKey)
+          break
+        }
       default :
         message.reply('pong')
     }
