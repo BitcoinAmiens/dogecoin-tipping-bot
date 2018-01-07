@@ -18,6 +18,8 @@ Now make your bot an user. You can then get your token.
 
 Go on the [Giphy developers dashboard](https://developers.giphy.com/dashboard/) and create an app to get started on development. Then, request a production key when putting the bot on production.
 
+If you don't want this feature, set `giphy.key` to blank in the `config.json`.
+
 #### Add your bot to your discord server
 
 Click on `Generate OAuth2 URL` and open this url in your browser. It is asking you on which server you want to add your bot.
