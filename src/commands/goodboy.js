@@ -1,8 +1,11 @@
 const { OOPS_TEXT } = require('../messages')
 const request = require('request')
 
+const tags = 'shiba-inu-doge-coin-dogecoin'
+const giphyUrl = 'http://api.giphy.com/v1/gifs/random?tag=' + tags + '&rating=g&api_key='
+
 function goodboy (message, apiKey) {
-  request('http://api.giphy.com/v1/gifs/random?tag=shiba-inu-doge-coin-dogecoin&rating=g&api_key=' + apiKey, { json: true }, (err, res, body) => {
+  request(giphyUrl + apiKey, { json: true }, (err, res, body) => {
     if (err) {
       console.log(err)
       message.channel.send(OOPS_TEXT)
