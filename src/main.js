@@ -7,6 +7,8 @@ const Commands = require('./commands')
 // Init the Discord client
 const client = new Discord.Client()
 
+const giphyApiKey = settings.GIPHY_KEY
+
 // Set our dogecoin node IP and port
 dogecoin.set('host', settings.RPC_HOST)
 dogecoin.set('port', settings.RPC_PORT)
@@ -47,7 +49,7 @@ client.on('message', message => {
         message.reply('Wow wow')
         break
       case 'goodboy':
-        Commands.goodboy(message, apiKey)
+        Commands.goodboy(message, giphyApiKey)
         break
       default :
         message.reply('pong')
