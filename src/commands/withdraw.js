@@ -4,10 +4,10 @@ const WITHDRAW_TEXT = 'Wow. Successful withdrawal.'
 const PROPER_AMOUNT_TEXT = 'You need provide a proper amount to be send.'
 const NO_COMMA_TEXT = 'Please avoid "," in your amount and use "."'
 const NEED_ADDRESS_TEXT = 'Need an address as a third argument'
-const NO_FUNDS = 'You dont have dodge to transfer.'
+const NO_FUNDS = 'You dont have doge to transfer.'
 const NOT_ENOUGH_FUNDS = 'Not enough funds for this transfer. Please add some dogecoins.'
 
-function withdraw (message, dogecoinNode, amount, toAddress) {
+function withdraw(message, dogecoinNode, amount, toAddress) {
   var amountInt = parseInt(amount)
   if (!amountInt) {
     message.reply(PROPER_AMOUNT_TEXT)
