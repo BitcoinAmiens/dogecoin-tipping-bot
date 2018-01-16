@@ -27,7 +27,6 @@ client.on('message', message => {
     var command = args[1]
 
     switch (command) {
-
       case 'help':
         Commands.help(message)
         break
@@ -43,10 +42,13 @@ client.on('message', message => {
       case 'address':
         Commands.address(message, dogecoin)
         break
+      case 'withdraw':
+        Commands.withdraw(message, dogecoin, args[2], args[3])
+        break
       case 'adopt':
         message.reply('Wow wow')
         break
-      default :
+      default:
         message.reply('pong')
     }
   } else {
