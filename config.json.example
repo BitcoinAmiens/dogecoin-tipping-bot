@@ -9,5 +9,8 @@
     "port": 44555,
     "user": "<dogecoin-rpc-user-here>",
     "password": "<dogecoin-rpc-password-here>"
+  },
+  "giphy": {
+    "key": "<your-giphy-api-key-here>"
   }
 }
