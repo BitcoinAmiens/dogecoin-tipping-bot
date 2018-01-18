@@ -27,6 +27,14 @@ You add it to `bitcoin-amiens-test`.
 
 You should see your bot under `offline`.
 
+#### Launch in devmode
+
+Go in your working directory and launch `npm install` to load dependencies
+
+Then launch your bot with `npm run dev` and prey God Shiba Inu !
+
+Go on the dev/test channel and test your code
+
 #### Dogecoind RPC username/password/hostname
 
 Ask Lola.

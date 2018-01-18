@@ -53,6 +53,9 @@ client.on('message', message => {
           Commands.goodboy(message, giphyApiKey)
           break
         }
+      case 'qrcode':
+        Commands.qrcode(message, dogecoin, Discord)
+        break
       default :
         message.reply('pong')
     }
