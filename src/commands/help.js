@@ -7,11 +7,12 @@ Command list : \n \
   - **balance** : Get your balance \n \
   - **rate** : Get current value \n \
   - **address** : Show an used wallet so you can refill your wallet \n \
+  - **withdraw** : Move coins to an external address \n \
   - **qrcode** : Show your qrcode to receive much money \n \
 ' + ((GIPHY_KEY !== null && GIPHY_KEY !== '') ? '  - **goodboy** : Wow, much doggo, such reward, wow \n' : '') + ' \
 ```'
 
-function help (message) {
+function help(message) {
   message.channel.send(HELP_TEXT)
 }
 
