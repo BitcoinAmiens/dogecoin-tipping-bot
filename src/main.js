@@ -53,8 +53,8 @@ client.on('message', message => {
       case 'goodboy':
         if (giphyApiKey !== null && giphyApiKey !== '') {
           Commands.goodboy(message, giphyApiKey)
-          break
         }
+        break
       case 'qrcode':
         Commands.qrcode(message, dogecoin, Discord)
         break
