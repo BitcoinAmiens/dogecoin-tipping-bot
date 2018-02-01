@@ -6,5 +6,7 @@ const address = require('./address')
 const withdraw = require('./withdraw')
 const goodboy = require('./goodboy')
 const qrcode = require('./qrcode')
+const voucher = require('./voucher')
 
-module.exports = { help, tip, balance, rate, address, withdraw, goodboy, qrcode }
+
+module.exports = { help, tip, balance, rate, address, withdraw, goodboy, qrcode, voucher }

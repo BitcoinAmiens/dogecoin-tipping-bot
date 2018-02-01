@@ -21,6 +21,7 @@
     "bitcoinjs-lib": "2.3.0",
     "discord.js": "^11.2.1",
     "dotenv": "^4.0.0",
+    "jsonfile": "^4.0.0",
     "node-dogecoin": "^0.3.9",
     "request": "^2.81.0"
   },
