@@ -2,8 +2,7 @@ const { OOPS_TEXT } = require('../messages')
 const path = require('path')
 const jsonfile = require('jsonfile')
 
-var vouchersFile = path.join(__dirname,'../vouchers.json')
-var vouchersFileBis = path.join(__dirname,'../vouchersBis.json')
+var vouchersFile = path.join(__dirname, '../vouchers.json')
 
 const ERROR_NOT_DM_MESSAGE = 'Carefull ! Yoou need to give your voucher code to the bot in a private message !'
 const INVALID_VOUCHER = 'Invalid voucher code'
@@ -17,8 +16,6 @@ function voucher (message, dogecoinNode, voucherCode) {
     var validVoucher = data.vouchers.find(function (element) {
       return element === voucherCode
     })
-
-    console.log(validVoucher)
 
     if (validVoucher) {
       dogecoinNode.getBalance('', function (err, balance) {
@@ -52,8 +49,8 @@ function voucher (message, dogecoinNode, voucherCode) {
       return
     }
 
-  message.reply(INVALID_VOUCHER)
-  return
+    message.reply(INVALID_VOUCHER)
+    return
   }
   message.reply(ERROR_NOT_DM_MESSAGE)
 }
