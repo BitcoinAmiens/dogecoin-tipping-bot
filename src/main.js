@@ -58,6 +58,9 @@ client.on('message', message => {
       case 'qrcode':
         Commands.qrcode(message, dogecoin, Discord)
         break
+      case 'voucher':
+        Commands.voucher(message, dogecoin, args[2])
+        break
       default:
         message.reply('pong')
     }
