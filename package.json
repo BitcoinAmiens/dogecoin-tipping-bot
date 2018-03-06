@@ -1,7 +1,7 @@
 {
-  "name": "dogecoin-tipping-bot",
+  "name": "intense-tipping-bot",
   "version": "0.0.1",
-  "description": "Dogecoin tipping bot",
+  "description": "Intensecoin tipping bot",
   "main": "src/main.js",
   "private": true,
   "scripts": {
