@@ -12,5 +12,8 @@
   },
   "giphy": {
     "key": "<your-giphy-api-key-here>"
+  },
+  "vouchers": {
+    "filename": "<your-vouchers-file-name-here>"
   }
 }

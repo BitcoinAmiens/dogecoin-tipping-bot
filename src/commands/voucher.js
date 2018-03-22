@@ -1,8 +1,17 @@
 const { OOPS_TEXT } = require('../messages')
 const path = require('path')
 const jsonfile = require('jsonfile')
+const settings = require('../settings')
+const fs = require('fs')
 
-var vouchersFile = path.join(__dirname, '../vouchers.json')
+var vouchersFile = path.join(__dirname, '..', '..', settings.VOUCHERS_FILENAME)
+
+
+// TODO: We could deactivate the vouchers instead of this
+if (!fs.existsSync(vouchersFile)) {
+  console.error('NO VOUCHERS FILE !!!')
+  process.exit()
+}
 
 const ERROR_NOT_DM_MESSAGE = 'Carefull ! Yoou need to give your voucher code to the bot in a private message !'
 const INVALID_VOUCHER = 'Invalid voucher code'
