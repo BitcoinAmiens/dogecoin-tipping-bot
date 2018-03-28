@@ -5,6 +5,7 @@ const PROPER_AMOUNT_TEXT = 'You need provide a proper amount to be send.'
 const NO_COMMA_TEXT = 'Please avoid "," in your amount and use "."'
 const NEED_USER_TEXT = 'Need a user as a third argument'
 const NOT_ENOUGH_FUNDS = 'Not enough funds for this transfer. Please add some dogecoins.'
+const CANT_TIP = 'You cant tip yourself!'
 
 function tip (message, dogecoinNode, amount) {
   var to = message.mentions.users.first()
@@ -29,6 +30,10 @@ function tip (message, dogecoinNode, amount) {
 
   var fromAccount = message.author.tag.replace('#', '')
   var toAccount = to.username + to.discriminator
+  
+  if (fromAccount == toAccount) {
+    message.reply(CANT_TIP)
+  }
 
   dogecoinNode.getBalance(fromAccount, function (err, balance) {
     if (err) {
