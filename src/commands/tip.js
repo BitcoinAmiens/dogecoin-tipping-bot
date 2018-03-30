@@ -31,7 +31,7 @@ function tip (message, dogecoinNode, amount) {
   var fromAccount = message.author.tag.replace('#', '')
   var toAccount = to.username + to.discriminator
   
-  if (fromAccount == toAccount) {
+  if (fromAccount === toAccount) {
     message.reply(CANT_TIP)
   }
 
