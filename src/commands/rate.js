@@ -1,10 +1,14 @@
-const { rateDogeEur } = require('../requests')
+const { RATE_URL } = require('../constants')
+const { OOPS_TEXT } = require('../messages')
+const axios = require('axios')
 
 function rate (message) {
-  rateDogeEur().then((rate) => {
-    message.channel.send('1 DGE = ' + rate + ' EUR')
-  }).catch((error) => {
-    message.channel.send(error)
+  return axios.get(RATE_URL)
+  .then(function (result) {
+    message.channel.send(`1 DOGE = ${result.data.prices[0].price}`)
+  })
+  .catch(function () {
+    message.channel.send(OOPS_TEXT)
   })
 }
 

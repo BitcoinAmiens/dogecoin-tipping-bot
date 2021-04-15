@@ -3,6 +3,7 @@ const path = require('path')
 const jsonfile = require('jsonfile')
 const settings = require('../settings')
 const fs = require('fs')
+const { getBalance } = require('../dogeApi')
 
 var vouchersFile = path.join(__dirname, '..', '..', settings.VOUCHERS_FILENAME)
 
@@ -15,8 +16,11 @@ if (!fs.existsSync(vouchersFile)) {
 
 const ERROR_NOT_DM_MESSAGE = 'Carefull ! Yoou need to give your voucher code to the bot in a private message !'
 const INVALID_VOUCHER = 'Invalid voucher code'
+const VOUCHER_SUCCESS = 'WOW much money'
 
-function voucher (message, dogecoinNode, voucherCode) {
+const VOUCHER_AMOUNT = 10
+
+async function voucher (message, dogecoinNode, voucherCode) {
   var account = message.author.tag.replace('#', '')
 
   if (message.channel.type === 'dm') {
@@ -27,35 +31,29 @@ function voucher (message, dogecoinNode, voucherCode) {
     })
 
     if (validVoucher) {
-      dogecoinNode.getBalance('', function (err, balance) {
-        if (err) {
-          console.log(err)
-          message.channel.send(OOPS_TEXT)
-          return
-        }
-
+      try {
+        const balance = await getBalance('')
+  
         // We don't have enough funds...
-        if (balance - 30 <= 0) {
+        if (balance - VOUCHER_AMOUNT <= 0) {
           message.reply(OOPS_TEXT)
           return
         }
+  
+        await move('', account, VOUCHER_AMOUNT)
+  
+        const index = data.vouchers.indexOf(validVoucher)
+        data.vouchers.splice(index, 1)
+  
+        jsonfile.writeFileSync(vouchersFile, data)
+  
+        message.reply(VOUCHER_SUCCESS)
+        return
+      } catch (err) {
+        message.reply(OOPS_TEXT)
+        return
+      }
 
-        dogecoinNode.move('', account, 30, function (err, result) {
-          if (err) {
-            console.log(err)
-            message.channel.send(OOPS_TEXT)
-            return
-          }
-
-          var index = data.vouchers.indexOf(validVoucher)
-          data.vouchers.splice(index, 1)
-
-          jsonfile.writeFileSync(vouchersFile, data)
-
-          message.reply('WOUH much money')
-        })
-      })
-      return
     }
 
     message.reply(INVALID_VOUCHER)

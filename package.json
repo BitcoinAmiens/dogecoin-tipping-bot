@@ -18,12 +18,11 @@
   "author": "Me",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.21.1",
     "bitcoinjs-lib": "2.3.0",
-    "discord.js": "^11.2.1",
+    "discord.js": "^12.5.3",
     "dotenv": "^4.0.0",
-    "jsonfile": "^4.0.0",
-    "node-dogecoin": "^0.3.9",
-    "request": "^2.81.0"
+    "jsonfile": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.12.1",
