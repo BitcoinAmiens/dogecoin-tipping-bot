@@ -20,7 +20,7 @@ const VOUCHER_SUCCESS = 'WOW much money'
 
 const VOUCHER_AMOUNT = 10
 
-async function voucher (message, dogecoinNode, voucherCode) {
+async function voucher (message, voucherCode) {
   var account = message.author.tag.replace('#', '')
 
   if (message.channel.type === 'dm') {

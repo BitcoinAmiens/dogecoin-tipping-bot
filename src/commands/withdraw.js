@@ -8,7 +8,7 @@ const NEED_ADDRESS_TEXT = 'Need an address as a third argument'
 const NO_FUNDS = 'You dont have doge to transfer.'
 const NOT_ENOUGH_FUNDS = 'Not enough funds for this transfer. Please add some dogecoins.'
 
-async function withdraw (message, dogecoinNode, amount, toAddress) {
+async function withdraw (message, amount, toAddress) {
   const amountInt = parseInt(amount)
   if (!amountInt) {
     message.reply(PROPER_AMOUNT_TEXT)
