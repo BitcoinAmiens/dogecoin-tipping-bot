@@ -28,11 +28,11 @@ async function tip (message, amount) {
     return
   }
 
-  var fromAccount = message.author.tag.replace('#', '')
-  var toAccount = to.username + to.discriminator
+  const fromAccount = message.author.tag.replace('#', '')
+  const toAccount = to.username + to.discriminator
 
   try {
-    const balance  = await getBalance(fromAccount)
+    const balance = await getBalance(fromAccount)
 
     // We don't have enough funds...
     if (balance - amountInt <= 0) {

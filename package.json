@@ -8,6 +8,7 @@
     "start": "node src/main.js",
     "dev": "nodemon src/main.js",
     "migrate": "node migrate/index.js",
+    "lint": "standard",
     "test": "echo \"I will write some... One day...\" && exit 0"
   },
   "keywords": [

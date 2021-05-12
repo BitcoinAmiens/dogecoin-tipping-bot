@@ -16,21 +16,21 @@ client.on('message', message => {
   if (message.author.bot) return
 
   if (message.content.startsWith('/wow')) {
-    var args = message.content.substring(1).split(' ')
-    var command = args[1]
+    const args = message.content.substring(1).split(' ')
+    const command = args[1]
 
     switch (command) {
       case 'help':
         Commands.help(message)
         break
       case 'tip':
-        Commands.tip(message,args[2])
+        Commands.tip(message, args[2])
         break
       case 'balance':
         Commands.balance(message)
         break
       case 'rate':
-        Commands.rate(message)
+        message.channel.send('1 DOGE = 1 DOGE')
         break
       case 'address':
         Commands.address(message)

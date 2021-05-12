@@ -1,12 +1,10 @@
 const { OOPS_TEXT } = require('../messages')
-const { RATE_URL } = require('../constants')
 const { getBalance } = require('../dogeApi')
-const axios = require('axios')
 
 const BALANCE_TEXT = 'Wow. Balance : '
 
 function balance (message) {
-  var account = message.author.tag.replace('#', '')
+  const account = message.author.tag.replace('#', '')
 
   getBalance(account)
     .then(function (balance) {

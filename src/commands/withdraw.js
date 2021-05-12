@@ -40,14 +40,12 @@ async function withdraw (message, amount, toAddress) {
       message.reply(NOT_ENOUGH_FUNDS)
       return
     }
-    
-    await sendfrom(fromAccount, toAddress, amountInt)
-    message.reply(WITHDRAW_TEXT)
 
+    await sendFrom(fromAccount, toAddress, amountInt)
+    message.reply(WITHDRAW_TEXT)
   } catch (err) {
     console.log(err)
     message.channel.send(OOPS_TEXT)
-    return
   }
 }
 
