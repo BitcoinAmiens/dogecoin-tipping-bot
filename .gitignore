@@ -3,3 +3,4 @@ config.json
 .env
 secret.txt
 vouchers.json
+vouchers-old.json

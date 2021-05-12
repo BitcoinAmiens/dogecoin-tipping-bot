@@ -1,6 +1,4 @@
 const Discord = require('discord.js')
-const dogecoin = require('node-dogecoin')()
-
 const settings = require('./settings')
 const Commands = require('./commands')
 
@@ -8,13 +6,6 @@ const Commands = require('./commands')
 const client = new Discord.Client()
 
 const giphyApiKey = settings.GIPHY_KEY
-
-// Set our dogecoin node IP and port
-dogecoin.set('host', settings.RPC_HOST)
-dogecoin.set('port', settings.RPC_PORT)
-
-// Register auth value
-dogecoin.auth(settings.RPC_USER, settings.RPC_PASSWORD)
 
 client.on('ready', () => {
   console.log('I am ready!')
@@ -25,27 +16,27 @@ client.on('message', message => {
   if (message.author.bot) return
 
   if (message.content.startsWith('/wow')) {
-    var args = message.content.substring(1).split(' ')
-    var command = args[1]
+    const args = message.content.substring(1).split(' ')
+    const command = args[1]
 
     switch (command) {
       case 'help':
         Commands.help(message)
         break
       case 'tip':
-        Commands.tip(message, dogecoin, args[2])
+        Commands.tip(message, args[2])
         break
       case 'balance':
-        Commands.balance(message, dogecoin)
+        Commands.balance(message)
         break
       case 'rate':
-        Commands.rate(message)
+        message.channel.send('1 DOGE = 1 DOGE')
         break
       case 'address':
-        Commands.address(message, dogecoin)
+        Commands.address(message)
         break
       case 'withdraw':
-        Commands.withdraw(message, dogecoin, args[2], args[3])
+        Commands.withdraw(message, args[2], args[3])
         break
       case 'adopt':
         message.reply('Wow wow')
@@ -56,10 +47,10 @@ client.on('message', message => {
         }
         break
       case 'qrcode':
-        Commands.qrcode(message, dogecoin, Discord)
+        Commands.qrcode(message)
         break
       case 'voucher':
-        Commands.voucher(message, dogecoin, args[2])
+        Commands.voucher(message, args[2])
         break
       default:
         message.reply('pong')

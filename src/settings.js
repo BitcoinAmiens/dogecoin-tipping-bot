@@ -1,6 +1,6 @@
 const config = require('../config.json')
 
-var settings = {}
+const settings = {}
 
 settings.DISCORD_ID = process.env.DISCORD_ID || config.discord.id
 settings.DISCORD_SECRET = process.env.DISCORD_SECRET || config.discord.secret
