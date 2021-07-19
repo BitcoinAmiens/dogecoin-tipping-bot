@@ -6,7 +6,32 @@ Allow you tip dogecoin in your discord chat.
 
 Copy the `config.json.example` file and rename it to `config.json`
 
-You need to get a Discord ID, Secret and Token. You will also need access to dogecoind node, and a Giphy API key.
+You need to get a Discord ID, Secret and Token (https://discord.com/developers/applications). Optionaly you will need a Giphy API key.
+
+#### Setting up regtest dogecoin node
+
+You will need docker installed.
+```
+$ make dev
+```
+
+Fill your `config.json` with the following value to connect to your regtest node:
+```json
+  ...
+  "rpc": {
+    "host": "127.0.0.1",
+    "port": 44555,
+    "user": "satoshi",
+    "password": "amiens"
+  },
+  ...
+```
+
+You can also use some usefull commands.
+```
+$ make sendtoaccount account=lola amount=10
+$ make listaccounts
+```
 
 #### Create a Discord app
 
