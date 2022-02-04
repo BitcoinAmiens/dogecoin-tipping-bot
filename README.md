@@ -2,6 +2,16 @@
 
 Allow you tip dogecoin in your discord chat.
 
+### Deployment
+
+Using docker
+```
+$ docker build -t dogecoin_tipping_bot .
+$ docker run -d -v ./config:/usr/src/app dogecoin_tipping_bot
+```
+
+with in `./config` your `config.json` and your optional `vouchers.json` file if you want to support voucher.
+
 ### Development
 
 Copy the `config.json.example` file and rename it to `config.json`
@@ -64,5 +74,3 @@ Go on the dev/test channel and test your code
 
 Ask Lola.
 
-
-And we're done...

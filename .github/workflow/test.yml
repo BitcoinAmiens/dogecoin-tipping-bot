@@ -1,0 +1,23 @@
+name: Run tests
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repo 
+      uses: actions/checkout@v2
+    - name: Install Node 16
+      uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+    - name: Npm Install
+      run: npm install
+    - name: Run Standard
+      run: npm run lint
+    - name: Run tests
+      run: npm test
