@@ -19,10 +19,13 @@ const VOUCHER_SUCCESS = 'WOW much money'
 
 const VOUCHER_AMOUNT = 10
 
-async function voucher (message, voucherCode) {
-  const account = message.author.tag.replace('#', '')
+async function voucher (interaction) {
+  const account = interaction.user.username + interaction.user.discriminator
+  const voucherCode = interaction.options.getString('voucher')
 
-  if (message.channel.type === 'dm') {
+  console.log(interaction)
+
+  if (interaction.channel.type === 'dm') {
     const data = jsonfile.readFileSync(vouchersFile)
 
     const validVoucher = data.vouchers.find(function (element) {
@@ -35,7 +38,7 @@ async function voucher (message, voucherCode) {
 
         // We don't have enough funds...
         if (balance - VOUCHER_AMOUNT <= 0) {
-          message.reply(OOPS_TEXT)
+          interaction.reply(OOPS_TEXT)
           return
         }
 
@@ -46,18 +49,18 @@ async function voucher (message, voucherCode) {
 
         jsonfile.writeFileSync(vouchersFile, data)
 
-        message.reply(VOUCHER_SUCCESS)
+        interaction.reply(VOUCHER_SUCCESS)
         return
       } catch (err) {
-        message.reply(OOPS_TEXT)
+        interaction.reply(OOPS_TEXT)
         return
       }
     }
 
-    message.reply(INVALID_VOUCHER)
+    interaction.reply(INVALID_VOUCHER)
     return
   }
-  message.reply(ERROR_NOT_DM_MESSAGE)
+  interaction.reply(ERROR_NOT_DM_MESSAGE)
 }
 
 module.exports = voucher

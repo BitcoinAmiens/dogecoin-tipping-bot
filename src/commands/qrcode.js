@@ -1,10 +1,10 @@
 const { OOPS_TEXT, QRCODE_TEXT } = require('../messages')
 const { getAccountAddress } = require('../dogeApi')
-const Discord = require('discord.js')
+const { EmbedBuilder } = require('discord.js')
 
-function qrcode (message) {
+function qrcode (interaction) {
   // Transform account to recover address
-  const account = message.author.tag.replace('#', '')
+  const account = interaction.user.username + interaction.user.discriminator
 
   // Call dogecoin node to have the public address
   getAccountAddress(account)
@@ -13,19 +13,18 @@ function qrcode (message) {
       const qrcodeurl = 'https://api.qrserver.com/v1/create-qr-code/?size=300&bgcolor=F4ECDA&color=BA9F33&margin=10&data=' + address
 
       // Make an amazing rich embed message with direct image
-      const embed = new Discord.MessageEmbed()
+      const embed = new EmbedBuilder()
         .setTitle(QRCODE_TEXT)
-        .setAuthor(message.author.username, message.author.avatarURL)
         .setColor('#BA9F33') // Color of left border
         .setDescription(address)
         .setImage(qrcodeurl)
 
       // Display message
-      message.channel.send({ embed })
+      interaction.reply({ embeds: [embed] })
     })
     .catch(function (err) {
       console.log(err)
-      message.channel.send(OOPS_TEXT)
+      interaction.reply(OOPS_TEXT)
     })
 }
 
