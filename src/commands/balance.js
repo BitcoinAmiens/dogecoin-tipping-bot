@@ -3,16 +3,16 @@ const { getBalance } = require('../dogeApi')
 
 const BALANCE_TEXT = 'Wow. Balance : '
 
-function balance (message) {
-  const account = message.author.tag.replace('#', '')
+function balance (interaction) {
+  const account = interaction.user.username + interaction.user.discriminator
 
   getBalance(account)
     .then(function (balance) {
-      message.channel.send(BALANCE_TEXT + (balance).toFixed(2) + ' DOGE')
+      interaction.reply(BALANCE_TEXT + (balance).toFixed(2) + ' DOGE')
     })
     .catch(function (err) {
       console.log(err)
-      message.channel.send(OOPS_TEXT)
+      interaction.reply(OOPS_TEXT)
     })
 }
 

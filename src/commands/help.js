@@ -12,8 +12,8 @@ const HELP_TEXT = '```Wow. DogeCoin to moon. \n' +
   '  - **voucher** : Get your dogecoins from your voucher card !! (Only work in private message with the bot) \n' +
   ((GIPHY_KEY !== null && GIPHY_KEY !== '') ? '  - **goodboy** : Wow, much doggo, such reward, wow \n' : '') + '```'
 
-function help (message) {
-  message.channel.send(HELP_TEXT)
+function help (interaction) {
+  interaction.reply(HELP_TEXT)
 }
 
 module.exports = help
