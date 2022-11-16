@@ -23,9 +23,8 @@ async function voucher (interaction) {
   const account = interaction.user.username + interaction.user.discriminator
   const voucherCode = interaction.options.getString('voucher')
 
-  console.log(interaction)
-
-  if (interaction.channel.type === 'dm') {
+  // hacky
+  if (!interaction.guildId) {
     const data = jsonfile.readFileSync(vouchersFile)
 
     const validVoucher = data.vouchers.find(function (element) {
