@@ -33,9 +33,9 @@ async function main () {
   client.on(Events.InteractionCreate, async interaction => {
     if (!interaction.isChatInputCommand()) return
 
-    console.log(interaction.commandName)
-
     const command = interaction.options.getSubcommand()
+
+    console.info(`[${new Date()}] Command ${command.toLocaleUpperCase()} called`)
 
     switch (command) {
       case 'help':
